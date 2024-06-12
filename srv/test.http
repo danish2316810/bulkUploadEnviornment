@@ -1,0 +1,16 @@
+
+
+###
+GET http://localhost:4004/catalog/STUDENTS
+Content-Type: application/json
+###
+POST http://localhost:4004/odata/v4/catalog/STUDENTS
+Content-Type: application/json
+
+  {
+                "ID": "7",
+                "FIRST_NAME": "GFG",
+                "LAST_NAME": "DFD",
+                "DOB": "ADFAD",
+                "ADDRESS": "SDFSDAF"
+  }

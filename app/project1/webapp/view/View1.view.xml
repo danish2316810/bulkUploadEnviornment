@@ -1,0 +1,63 @@
+<mvc:View
+    controllerName="massupload.project1.controller.View1"
+    xmlns:l="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    class="viewPadding"
+    xmlns:unified="sap.ui.unified">
+
+    <Page id="_IDGenPage1" title="Add Student">
+        <content>
+        
+            <l:SimpleForm
+                id="_IDGenSimpleForm1"
+                layout="ResponsiveGridLayout"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsL="1"
+                columnsM="1"
+                columnsS="1">
+                
+                <Label text="Student ID" />
+                <Input id="_IDGenInput1" placeholder="Student ID" value="{/ID}" />
+                
+                <Label text="First Name" />
+                <Input id="_IDGenInput3" placeholder="First Name" value="{/FIRST_NAME}" />
+                
+                <Label text="Last Name" />
+                <Input id="_IDGenInput2" placeholder="Last Name" value="{/LAST_NAME}" />
+                
+                <Label text="DOB" />
+                <Input id="_IDGenInput4" placeholder="DOB" value="{/DOB}" />
+                
+                <Label text="Address" />
+                <Input id="_IDGenInput5" placeholder="Address" value="{/ADDRESS}" />
+                
+                <Toolbar>
+                    <ToolbarSpacer />
+                    <Button id="_IDGenButton1" text="Submit" press="onSubmit" />
+                    
+                   
+                </Toolbar>
+            </l:SimpleForm>
+             <VBox>
+    
+        <unified:FileUploader
+            id="fileUploader"
+            change="onFileChange"
+            name="file"
+            width="400px"/>
+        <Button
+            text="Upload Students"
+            press="onUploadStudentsPress"/>
+    </VBox>
+
+        </content>
+    </Page>
+</mvc:View>
