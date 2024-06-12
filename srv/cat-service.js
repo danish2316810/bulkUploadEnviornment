@@ -23,9 +23,13 @@ module.exports = srv => {
             const studentsData = XLSX.utils.sheet_to_json(sheet);
 
             console.log('Parsed Data:', studentsData);
+            const formattedStudentsData = studentsData.map(record => ({
+              ...record,
+              ID: String(record.ID) // Convert ID to string
+          }));
 
             // Insert parsed data into Students table
-            await INSERT.into(STUDENTS).entries(studentsData);
+            await INSERT.into(STUDENTS).entries(formattedStudentsData);
 
             return { message: 'File uploaded successfully.' };
         } catch (error) {
