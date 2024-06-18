@@ -46,6 +46,7 @@ sap.ui.define([
 
             const oReader = new FileReader();
             const that = this;
+            oReader.readAsDataURL(this._oFile);
 
             oReader.onload = function (e) {
                 const sFileContent = e.target.result;
@@ -67,7 +68,7 @@ sap.ui.define([
                 });
             };
 
-            oReader.readAsDataURL(this._oFile);
+            
         },
         
 

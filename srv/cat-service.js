@@ -7,37 +7,35 @@ const XLSX = require('xlsx');
 module.exports = srv => {
     srv.on('UploadStudents', async (req) => {
         const { STUDENTS } = srv.entities;
-
+    
         try {
             const fileContent = req.data.file.split(',')[1]; // Get base64 content after the comma
-            const binaryString = Buffer.from(fileContent, 'base64').toString('binary');
-            const bytes = new Uint8Array(binaryString.length);
-
-            for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
+            const buffer = Buffer.from(fileContent, 'base64');
+    
+            // Create a Uint8Array directly from the buffer
+            const bytes = new Uint8Array(buffer);
+    
             const workbook = XLSX.read(bytes.buffer, { type: 'array' });
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
             const studentsData = XLSX.utils.sheet_to_json(sheet);
-
+    
             console.log('Parsed Data:', studentsData);
             const formattedStudentsData = studentsData.map(record => ({
-              ...record,
-              ID: String(record.ID) // Convert ID to string
-          }));
-
+                ...record,
+                ID: String(record.ID) // Convert ID to string
+            }));
+    
             // Insert parsed data into Students table
             await INSERT.into(STUDENTS).entries(formattedStudentsData);
-
+    
             return { message: 'File uploaded successfully.' };
         } catch (error) {
             console.error("Error during upload:", error);
             return req.error(400, 'Invalid file content');
         }
     });
-
+    
     srv.before('CREATE', 'STUDENTS', async (req) => {
         if (req.data.ID) {
             console.log('Original ID:', req.data.ID, 'Type:', typeof req.data.ID);
