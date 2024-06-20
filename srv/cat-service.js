@@ -13,9 +13,9 @@ module.exports = srv => {
             const buffer = Buffer.from(fileContent, 'base64');
     
             // Create a Uint8Array directly from the buffer
-            const bytes = new Uint8Array(buffer);
+            // const bytes = new Uint8Array(buffer);
     
-            const workbook = XLSX.read(bytes.buffer, { type: 'array' });
+            const workbook = XLSX.read(buffer.buffer, { type: 'array' });
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
             const studentsData = XLSX.utils.sheet_to_json(sheet);
@@ -27,7 +27,13 @@ module.exports = srv => {
             }));
     
             // Insert parsed data into Students table
-            await INSERT.into(STUDENTS).entries(formattedStudentsData);
+            // await INSERT.into(STUDENTS).entries(formattedStudentsData);
+
+             // Call stored procedure for each record
+             for (const student of formattedStudentsData) {
+                const { ID, FIRST_NAME, LAST_NAME, DOB, ADDRESS } = student;
+                await cds.run(`CALL "A2513E865FC2489093EC383E43DC0B14"."payloadProcedu"('${ID}', '${FIRST_NAME}', '${LAST_NAME}', '${DOB}', '${ADDRESS}')`);
+            }
     
             return { message: 'File uploaded successfully.' };
         } catch (error) {

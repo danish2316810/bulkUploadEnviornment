@@ -1,0 +1,14 @@
+PROCEDURE "payloadProcedu" (
+    IN id NVARCHAR(100),
+    IN first_name NVARCHAR(100),
+    IN last_name NVARCHAR(100),
+    IN dob NVARCHAR(100),
+    IN address NVARCHAR(100)
+)
+LANGUAGE SQLSCRIPT
+SQL SECURITY INVOKER
+AS
+BEGIN
+    INSERT INTO "APP_STUDENTS" (ID, FIRST_NAME, LAST_NAME, DOB, ADDRESS)
+    VALUES (:id, :first_name, :last_name, :dob, :address);
+END;
